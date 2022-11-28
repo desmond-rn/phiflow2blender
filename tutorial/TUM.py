@@ -12,10 +12,10 @@ RES = 64
 RADIUS = 2
 T_STEP = 1
 DOMAIN = dict(x=2*RES, y=RES, z=3*RES)
-NUM_FRAMES = 500
+NUM_FRAMES = 15
 
 #TODO: Change this path to where you want to save the simulation data
-SCENE_PATH = "/home/teemps/FILES/UNI/TUM/HiWi-Thurey/TUM_Logo/tum-logo/tutorial/TUM64"
+SCENE_PATH = "../data/tum_logo/"
 scene = Scene(SCENE_PATH)
 
 
@@ -31,7 +31,7 @@ OBSTACLE_GEOMETRIES = [
     Box[0.55*  RES:1.7*   RES, 0:RES, 1.15* RES:1.42*  RES]
 ]
 OBSTACLE = Obstacle(union(OBSTACLE_GEOMETRIES))
-OBSTACLE_MASK = HardGeometryMask(OBSTACLE.geometry) >> CenteredGrid(0, extrapolation.BOUNDARY, **DOMAIN)
+# OBSTACLE_MASK = HardGeometryMask(OBSTACLE.geometry) >> CenteredGrid(0, extrapolation.BOUNDARY, **DOMAIN)
 
 
 INFLOW = CenteredGrid(Box[0.31*RES:0.45*RES, 0.35*RES:0.75*RES, 0.5* RES:0.65*RES ], extrapolation.BOUNDARY, **DOMAIN) * 0.2 + \
@@ -47,7 +47,8 @@ for step in range(NUM_FRAMES):
 
     start = time.time()
     smoke = advect.mac_cormack(smoke, velocity, dt=T_STEP) + INFLOW
-    buoyancy_force = smoke * (0.1, 0, 0) >> velocity  # resamples smoke to velocity sample points
+    # buoyancy_force = smoke * (0.1, 0, 0) >> velocity  # resamples smoke to velocity sample points
+    buoyancy_force = smoke * (0.1, 0, 0)
     velocity = advect.semi_lagrangian(velocity, velocity, 1) + buoyancy_force
     with math.SolveTape() as solves:
         velocity, pressure = fluid.make_incompressible(velocity, (OBSTACLE,), Solve('CG-adaptive', 1e-5, 0, max_iterations=1500, x0=None))

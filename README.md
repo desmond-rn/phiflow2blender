@@ -15,8 +15,7 @@ Looks cool right? Let's dive into it!
 ## Workflow
 1. Write a phiflow simulation and save the resulting frames as compressed 
 numpy arrays (.npz). For example, see [plume.py](tutorial/plume.py) or [TUM.py](tutorial/TUM.py)
-2. Process the frames in [mantaflow](http://mantaflow.com/install.html) and output them in OpenVDB format. Blender has great support to 
-easily import OpenVDB volumes. To convert your simulation files, you have to run the [manta2vdb.py](tutorial/manta2vdb.py) 
+2. Process the frames in [mantaflow](http://mantaflow.com/install.html) and output them in OpenVDB format. Blender has great support to easily import OpenVDB volumes. To convert your simulation files, you have to run the [manta2vdb.py](tutorial/manta2vdb.py) 
 script using [mantaflow](http://mantaflow.com/install.html), with the following arguments:
 - `-d path-to-the-input-file`
 - `-res X-resolution Y-resolution Z-resolution`
@@ -26,7 +25,7 @@ script using [mantaflow](http://mantaflow.com/install.html), with the following 
 
 For example: 
 `./path/to/manta path/to/manta2vdb.py -d path/to/scene/data -res 64 64 64 `
-
+>Note: When building Mantaflow from source in Windows, make sure you run CMake in `Release` mode
 >Note: It is also possible to do this using the pyopenvdb module, but when I had issues installing the
 >module and abandoned the effort.
 3. Load the OpenVDB frame sequence in Blender, setup the scene in Blender and render! Since this is 

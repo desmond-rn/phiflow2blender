@@ -145,3 +145,5 @@ dmypy.json
 
 #OpenVDB files
 *.vdb
+data/*
+tutorial/manta.exe

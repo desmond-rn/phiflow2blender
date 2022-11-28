@@ -60,8 +60,12 @@ for dirpath, dirnames, filenames in os.walk(input_dir):
 
 # save velocity and vorticity to OpenVDB
 for file_name in vel_files:
-    data = np.load(file_name)["data"]
+    data = np.load(file_name, allow_pickle=True)["data"]
     data = data[:-1:, :-1, :-1, ::]  # crop, and flip XYZ vel channels again!
+    print(f"\nSize of Numpy array X: {gV.getSizeX()}")
+    print(f"\nSize of Numpy array Y: {gV.getSizeY()}")
+    print(f"\nSize of Numpy array Z: {gV.getSizeZ()}")
+    print(f"\nSize of Numpy array: {data.shape}")
 
     copyArrayToGridMAC(target=gV, source=data)
     computeVorticity(gV, vort, vortn)
